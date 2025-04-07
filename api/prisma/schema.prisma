@@ -32,7 +32,7 @@ model Movie {
   rate       Float
   annotation String?
   userId     String            @map("user_id") @db.Uuid
-  folderId   String            @map("folder_id")
+  folderId   String            @map("folder_id") @db.Uuid
   createdAt  DateTime          @default(now())
   updatedAt  DateTime          @updatedAt
   User       User              @relation(fields: [userId], references: [id], onDelete: Cascade)
