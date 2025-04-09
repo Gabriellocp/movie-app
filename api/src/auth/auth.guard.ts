@@ -8,6 +8,7 @@ import {
 import { Reflector } from '@nestjs/core';
 import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
+import { env } from 'src/shared/config/env';
 import { PUBLIC_ROUTE } from 'src/shared/decorators/IsPublic.decorator';
 
 @Injectable()
@@ -28,7 +29,7 @@ export class AuthGuard implements CanActivate {
             const payload = await this.jwtService.verifyAsync(
                 token,
                 {
-                    secret: ''
+                    secret: env.jwtSecret
                 }
             );
             // 💡 We're assigning the payload to the request object here

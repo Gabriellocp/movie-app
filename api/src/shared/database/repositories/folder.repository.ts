@@ -28,4 +28,9 @@ export class FolderRepository {
             where: { userId }
         })
     }
+    findById(id: string) {
+        return this.db.folder.findUnique({
+            where: { id }
+        })
+    }
 }

@@ -13,9 +13,9 @@ export class FolderService {
     return this.repo.findByUser(userId)
   }
 
-  // findOne(id: number) {
-  //   return `This action returns a #${id} folder`;
-  // }
+  findOne(id: string) {
+    return this.repo.findById(id)
+  }
 
   // update(id: number, updateFolderDto: UpdateFolderDto) {
   //   return `This action updates a #${id} folder`;
