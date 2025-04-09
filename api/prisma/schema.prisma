@@ -27,7 +27,7 @@ model User {
 model Movie {
   id         String            @id @default(uuid()) @db.Uuid
   externalId String
-  category   String
+  categories String[]
   status     MOVIE_STATUS_TYPE
   rate       Float
   annotation String?
