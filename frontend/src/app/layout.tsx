@@ -1,3 +1,6 @@
+import { Header } from "@/components/Header";
+import { Toaster } from "@/components/ui/sonner";
+import AuthProvider from "@/provider/AuthProvider";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
@@ -25,9 +28,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-400`}
       >
-        {children}
+        <AuthProvider>
+          <Toaster />
+          <Header />
+          {children}
+        </AuthProvider>
       </body>
     </html>
   );
