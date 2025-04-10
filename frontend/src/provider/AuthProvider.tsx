@@ -15,7 +15,13 @@ interface IActiveUser {
   token: string;
 }
 interface IAuthContext {
-  login: ({ email, password }: { email: string; password: string }) => {};
+  login: ({
+    email,
+    password,
+  }: {
+    email: string;
+    password: string;
+  }) => Promise<ISignReturn>;
   register: ({
     email,
     password,
@@ -24,10 +30,21 @@ interface IAuthContext {
     email: string;
     password: string;
     name: string;
-  }) => {};
+  }) => Promise<ISignReturn>;
   logout: () => void;
   activeUser: IActiveUser | undefined;
 }
+type ISignSuccess = {
+  success: true;
+  message: undefined;
+};
+
+type ISignError = {
+  success: false;
+  message: string;
+};
+
+type ISignReturn = ISignSuccess | ISignError;
 const AuthContext = createContext<IAuthContext | undefined>(undefined);
 
 export const useAuthContext = () => {
@@ -45,18 +62,17 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
   const router = useRouter();
   useEffect(() => {
     const accessToken = localStorage.getItem("accessToken") ?? undefined;
-    if (accessToken) {
-      Cookie.set("accessToken", accessToken);
-    }
     handleToken(accessToken);
   }, []);
   const handleToken = (token?: string) => {
     if (!token) {
+      Cookie.remove("accessToken");
       return;
     }
     try {
       const user = jwtDecode(token);
       setActiveUser({ name: user.name, token });
+      Cookie.set("accessToken", token);
       localStorage.setItem("accessToken", token);
     } catch {
       handleLogout();
@@ -72,7 +88,10 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
     try {
       const token = await AuthService.authenticate({ email, password });
       handleToken(token);
-    } catch {}
+      return { success: true } as const;
+    } catch {
+      return { success: false, message: "Failed to authenticate" } as const;
+    }
   };
   const handleRegister = async ({
     name,
@@ -86,7 +105,10 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
     try {
       const token = await AuthService.signup({ email, password, name });
       handleToken(token);
-    } catch {}
+      return { success: true } as const;
+    } catch {
+      return { success: false, message: "Failed to sign up" } as const;
+    }
   };
   const handleLogout = () => {
     localStorage.removeItem("accessToken");
