@@ -47,7 +47,7 @@ export function SignUpForm() {
     console.log(message);
     if (success) {
       form.reset();
-      router.push("/movies");
+      router.push("/movie");
     }
   };
   return (

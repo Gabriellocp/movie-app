@@ -28,7 +28,7 @@ export function SignInForm() {
     console.log(message);
     if (success) {
       form.reset();
-      router.push("/movies");
+      router.push("/movie");
     }
   };
   return (
