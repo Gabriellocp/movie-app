@@ -19,4 +19,10 @@ export class UserRepository {
             where: { email }
         })
     }
+    getMovies(userId: string) {
+        return this.db.user.findUnique({
+            where: { id: userId },
+            select: { Movies: true }
+        })
+    }
 }

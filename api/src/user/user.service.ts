@@ -34,7 +34,15 @@ export class UserService {
     if (folder?.userId !== userId) {
       throw new UnauthorizedException('Folder does not belong to this user')
     }
+    const alreadyHasThisMovie = await this.repo.getMovies(userId)
+    if (alreadyHasThisMovie?.Movies.find(movie => movie.externalId === dto.externalId)) {
+      throw new ConflictException('User already has this movie')
+    }
     return await this.movieRepo.create(dto, userId)
   }
 
+  async getMovies(userId: string) {
+    const movies = await this.repo.getMovies(userId)
+    return (movies?.Movies ?? [])
+  }
 }
