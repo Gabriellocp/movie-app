@@ -1,0 +1,5 @@
+export enum MOVIE_STATUS {
+    WATCHED = 'WATCHED',
+    WATCH_LATER = 'WATCH_LATER',
+
+}

@@ -46,6 +46,20 @@
   
 }
 
+/* @layer base {
+  
+  input:focus-visible {
+    @apply !border-primary;
+  }
+} */
+@layer components {
+  .input {
+   @variant focus-visible {
+    @apply !border-primary;
+   }
+  }
+}
+
 :root {
   --radius: 0.625rem;
   --background: oklch(1 0 0);
