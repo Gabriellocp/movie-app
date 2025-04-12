@@ -24,8 +24,9 @@ export function SignInForm() {
   });
   const handleSubmit = async (values: any) => {
     const { success, message } = await login(values);
-    toast(message);
-    console.log(message);
+    if (message) {
+      toast(message);
+    }
     if (success) {
       form.reset();
       router.push("/movie");

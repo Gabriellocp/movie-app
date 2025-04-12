@@ -89,8 +89,8 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
       const token = await AuthService.authenticate({ email, password });
       handleToken(token);
       return { success: true } as const;
-    } catch {
-      return { success: false, message: "Failed to authenticate" } as const;
+    } catch (err: any) {
+      return { success: false, message: err.message } as const;
     }
   };
   const handleRegister = async ({
@@ -106,8 +106,8 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
       const token = await AuthService.signup({ email, password, name });
       handleToken(token);
       return { success: true } as const;
-    } catch {
-      return { success: false, message: "Failed to sign up" } as const;
+    } catch (err: any) {
+      return { success: false, message: err.message } as const;
     }
   };
   const handleLogout = () => {
