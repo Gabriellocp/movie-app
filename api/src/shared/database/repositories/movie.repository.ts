@@ -1,6 +1,7 @@
+import { Injectable } from "@nestjs/common";
 import { CreateMovieDto } from "src/movie/dto/create-movie.dto";
 import { PrismaService } from "../prisma.service";
-
+@Injectable()
 export class MovieRepository {
     constructor(private readonly db: PrismaService) { }
 
@@ -25,5 +26,6 @@ export class MovieRepository {
             }
         })
     }
+
 
 }

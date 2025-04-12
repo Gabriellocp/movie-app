@@ -1,4 +1,5 @@
 import { MOVIE_STATUS_TYPE } from "@prisma/client"
+import { Transform } from "class-transformer"
 import { IsArray, IsEnum, IsNotEmpty, IsNumber, IsString, IsUUID } from "class-validator"
 
 export class CreateMovieDto {
@@ -7,6 +8,7 @@ export class CreateMovieDto {
     categories: string[]
     @IsString()
     @IsNotEmpty()
+    @Transform(({ value }) => String(value))
     externalId: string
     @IsEnum(MOVIE_STATUS_TYPE)
     @IsNotEmpty()

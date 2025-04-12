@@ -8,6 +8,7 @@ import { SearchMovieDto } from './dto/search-movie.dto';
 export class MovieService {
   constructor(private readonly repo: MovieRepository) { }
   create(createMovieDto: CreateMovieDto, userId: string) {
+
     return this.repo.create(createMovieDto, userId)
   }
   private fetchUrl(url: string) {
