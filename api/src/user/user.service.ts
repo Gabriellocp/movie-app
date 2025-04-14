@@ -2,6 +2,7 @@ import { ConflictException, Injectable, UnauthorizedException } from '@nestjs/co
 import { hash } from 'bcryptjs';
 import { SignUpDto } from 'src/auth/dto/signUp.dto';
 import { CreateMovieDto } from 'src/movie/dto/create-movie.dto';
+import { UpdateMovieDto } from 'src/movie/dto/update-movie.dto';
 import { FolderRepository } from 'src/shared/database/repositories/folder.repository';
 import { MovieRepository } from 'src/shared/database/repositories/movie.repository';
 import { UserRepository } from 'src/shared/database/repositories/user.repository';
@@ -44,5 +45,14 @@ export class UserService {
   async getMovies(userId: string) {
     const movies = await this.repo.getMovies(userId)
     return (movies?.Movies ?? [])
+  }
+
+  async updateMovie(dto: UpdateMovieDto, userId: string, movieId: string) {
+    const folder = await this.folderRepo.findById(dto.folderId ?? '')
+    if (folder?.userId !== userId) {
+      throw new UnauthorizedException('Folder does not belong to this user')
+    }
+
+    return await this.movieRepo.update(dto, movieId)
   }
 }
