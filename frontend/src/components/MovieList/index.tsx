@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { AddMovieModal } from "../AddMovieModal";
+import { MovieDb } from "@/types";
+import { MovieModal } from "../MovieModal";
 import {
   Pagination,
   PaginationContent,
@@ -11,7 +11,7 @@ import { Spinner } from "../ui/spinner";
 import { MovieCard } from "./MovieCard";
 
 interface IMovieListProps {
-  movies: any[];
+  movies: MovieDb[];
   page: number;
   totalPages: number;
   totalMovies?: number;
@@ -26,7 +26,6 @@ export function MovieList({
   totalMovies,
   totalPages,
 }: IMovieListProps) {
-  const [selectedMovie, setSelectedMovie] = useState<any>(undefined);
   if (loading) {
     return (
       <div className="flex flex-1 items-center justify-center">
@@ -50,7 +49,7 @@ export function MovieList({
         {movies.map((movie) => {
           return (
             <MovieCard key={movie.id} movie={movie}>
-              <AddMovieModal movie={movie} />
+              <MovieModal movie={movie} mode="create" />
             </MovieCard>
           );
         })}

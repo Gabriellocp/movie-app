@@ -1,8 +1,9 @@
+import { MovieDb } from "@/types";
 import Image from "next/image";
 import { ReactNode } from "react";
 
 interface IMovieCardProps {
-  movie: any;
+  movie: MovieDb;
   children?: ReactNode;
 }
 export function MovieCard({ movie, children }: IMovieCardProps) {

@@ -1,12 +1,12 @@
-import { MovieCard } from "@/components/MovieList/MovieCard";
+import { UserMovieCard } from "@/components/UserMovieCard";
 import UserService from "@/services/UserService";
 
 export default async function MePage() {
   const movies = await UserService.getMovies();
   return (
-    <div className="flex w-auto flex-col space-y-2 items-center mx-auto sm:w-1/2">
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 mx-auto items-stretch gap-2">
       {movies.map((movie: any) => (
-        <MovieCard movie={movie} key={movie.id} />
+        <UserMovieCard movie={movie} key={movie.id} />
       ))}
     </div>
   );
