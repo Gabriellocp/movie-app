@@ -43,7 +43,7 @@ export default function FormSelect({
           <FormLabel>{label}</FormLabel>
           <Select onValueChange={field.onChange} defaultValue={field.value}>
             <FormControl>
-              <SelectTrigger className="hover:bg-accent outline-none data-[placeholder]:text-muted-foreground hover:text-accent-foreground">
+              <SelectTrigger className="hover:bg-accent outline-none data-[placeholder]:text-muted-foreground hover:text-accent-foreground w-full">
                 <SelectValue placeholder={placeholder} />
               </SelectTrigger>
             </FormControl>
