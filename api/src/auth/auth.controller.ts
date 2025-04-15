@@ -1,7 +1,7 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Get, Post, Req, Res } from '@nestjs/common';
+import { Request, Response } from 'express';
 import { IsPublic } from 'src/shared/decorators/IsPublic.decorator';
 import { AuthService } from './auth.service';
-import { RefreshTokenDto } from './dto/refreshToken.dto';
 import { SignInDto } from './dto/signIn.dto';
 import { SignUpDto } from './dto/signUp.dto';
 
@@ -11,17 +11,26 @@ export class AuthController {
   constructor(private readonly authService: AuthService) { }
 
   @Post('signup')
-  signUp(@Body() dto: SignUpDto) {
-    return this.authService.signUp(dto);
+  async signUp(@Body() dto: SignUpDto, @Res({ passthrough: true }) response: Response) {
+    const { accessToken, refreshToken } = await this.authService.signUp(dto);
+    response.cookie('refreshToken', refreshToken, { httpOnly: true, secure: false })
+    return response.json({ accessToken })
   }
 
   @Post('signin')
-  signIn(@Body() dto: SignInDto) {
-    return this.authService.signIn(dto);
+  async signIn(@Body() dto: SignInDto, @Res({ passthrough: true }) response: Response) {
+    const { accessToken, refreshToken } = await this.authService.signIn(dto);
+    response.cookie('refreshToken', refreshToken, { httpOnly: true, secure: false })
+    return response.json({ accessToken })
   }
 
-  @Post('refresh')
-  refresh(@Body() dto: RefreshTokenDto) {
-    return this.authService.refresh(dto)
+  @Get('refresh')
+  async refresh(@Req() request: Request) {
+    console.log('FUI CHAMADO!!', request.headers.authorization)
+    const refreshToken = request.cookies['refreshToken']
+    if (!refreshToken) {
+      throw new BadRequestException('No token provided')
+    }
+    return await this.authService.refresh({ refreshToken })
   }
 }
