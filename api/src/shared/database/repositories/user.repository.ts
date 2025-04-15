@@ -19,6 +19,11 @@ export class UserRepository {
             where: { email }
         })
     }
+    findById(id: string) {
+        return this.db.user.findUnique({
+            where: { id }
+        })
+    }
     getMovies(userId: string) {
         return this.db.user.findUnique({
             where: { id: userId },

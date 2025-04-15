@@ -29,6 +29,9 @@ export class UserService {
   findByEmail(email: string) {
     return this.repo.findByEmail(email)
   }
+  findById(id: string) {
+    return this.repo.findById(id)
+  }
 
   async addMovie(dto: CreateMovieDto, userId: string) {
     const folder = await this.folderRepo.findById(dto.folderId)
