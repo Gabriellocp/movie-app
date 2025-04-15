@@ -8,7 +8,6 @@ export function middleware(request: NextRequest) {
     if (!token && privateRoutes.includes(request.nextUrl.pathname)) {
         return NextResponse.redirect(new URL('/', request.url))
     }
-    console.log(token, guestRoutes.includes(request.nextUrl.pathname))
     if (token && guestRoutes.includes(request.nextUrl.pathname)) {
         return NextResponse.redirect(new URL('/movie', request.url))
     }

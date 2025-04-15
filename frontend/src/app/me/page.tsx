@@ -1,8 +1,8 @@
 import { UserMovieCard } from "@/components/UserMovieCard";
-import UserService from "@/services/UserService";
+import { withRetry } from "../actions/withRetry";
 
 export default async function MePage() {
-  const movies = await UserService.getMovies();
+  const movies = await withRetry("/user/movies");
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 mx-auto items-stretch gap-2">
       {movies.map((movie: any) => (
