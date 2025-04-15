@@ -73,7 +73,6 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
       const user = jwtDecode(token);
       setActiveUser({ name: user.name, token });
       Cookie.set("accessToken", token);
-      localStorage.setItem("accessToken", token);
     } catch {
       handleLogout();
     }
