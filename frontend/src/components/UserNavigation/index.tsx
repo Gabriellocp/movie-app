@@ -11,6 +11,9 @@ export function UserNavigation() {
   return (
     <div className="flex space-x-2">
       <Button asChild>
+        <Link href={"/folder"}>Folders</Link>
+      </Button>
+      <Button asChild>
         <Link href={"/movie"}>Movies</Link>
       </Button>
       <Popover>

@@ -24,7 +24,6 @@ export const api = (suffix?: string) => {
                         Cookie: await getHeaderCookies()
                     }
                 }
-                console.log(headers)
                 //     refreshToken = localStorage.getItem('refreshToken')
                 // }
                 const response = await axiosInstance.get(`${process.env.API_URL}/auth/refresh`, { withCredentials: true, headers })

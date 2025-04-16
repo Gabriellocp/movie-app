@@ -24,4 +24,9 @@ export type MovieApi = {
 
 }
 
+export type Folder = {
+    id: string;
+    name: string;
+    userId: string;
+}
 export type UserMovie = MovieApi & Pick<MovieDb, Exclude<keyof MovieDb, 'id'>>
