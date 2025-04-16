@@ -67,11 +67,14 @@ export function MovieModal({ mode, movie, onSave }: MovieModalProps) {
       <DialogTrigger onClick={fetch} className="w-20" asChild>
         <Button>{`${isEditMode ? "Edit" : "Add"}`}</Button>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className="bg-white">
         <DialogHeader>
-          <DialogTitle>{`${
-            isEditMode ? `Editing ${movie.title}` : `Add "${movie.title}"?`
-          }`}</DialogTitle>
+          <DialogTitle className="text-primary">
+            {`${
+              isEditMode ? `Editing "${movie.title}"` : `Add "${movie.title}"?`
+            }`}
+          </DialogTitle>
+          <hr></hr>
           <MovieForm data={movie} onSubmit={handleSubmit} />
         </DialogHeader>
       </DialogContent>

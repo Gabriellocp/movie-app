@@ -73,7 +73,7 @@ export function MovieForm({
   return (
     <Form {...form}>
       <form
-        className="bg-white p-8 rounded-xl flex flex-col space-y-2"
+        className="rounded-xl flex flex-col space-y-2"
         onSubmit={form.handleSubmit(handleSubmit)}
       >
         <FormSelect
