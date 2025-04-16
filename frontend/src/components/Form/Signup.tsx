@@ -1,3 +1,4 @@
+"use client";
 import { Form } from "@/components/ui/form";
 import { useAuthContext } from "@/provider/AuthProvider";
 import { zodResolver } from "@hookform/resolvers/zod";
