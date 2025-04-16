@@ -8,3 +8,5 @@ export const getCookies = async (value: string) => {
 }
 
 export const getHeaderCookies = async () => (await cookies()).toString()
+
+export const setCookies = async (name: string, value: string) => (await cookies()).set(name, value)

@@ -1,21 +1,20 @@
 import axios from "axios";
 import { redirect } from "next/navigation";
-import { getCookies, getHeaderCookies } from "./getSSCookies";
+import { getCookies, getHeaderCookies, setCookies } from "./getSSCookies";
 
-export async function withRetry(url: string, options: any = {}) {
+export async function withRetry<T>(url: string, options: any = {}): Promise<T> {
     try {
         const response = await axios({
             url: `${process.env.API_URL}${url}`,
             ...options,
+            withCredentials: true,
             headers: {
                 ...options.headers,
                 Authorization: `Bearer ${await getCookies('accessToken')}`,
             },
         });
-
         return response.data;
     } catch (error) {
-        console.log(error)
         if (axios.isAxiosError(error) && error.response?.status === 401) {
             try {
                 const response = await axios.get(`${process.env.API_URL}/auth/refresh`, {
@@ -24,11 +23,12 @@ export async function withRetry(url: string, options: any = {}) {
                     },
                 });
 
-                const renewedAccessToken = response.data.accessToken
-
+                const renewedAccessToken = response.data.accessToken;
+                await setCookies('accessToken', renewedAccessToken)
                 const retryResponse = await axios({
                     url: `${process.env.API_URL}${url}`,
                     ...options,
+                    withCredentials: true,
                     headers: {
                         ...options.headers,
                         Authorization: `Bearer ${renewedAccessToken}`,
