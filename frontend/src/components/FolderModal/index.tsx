@@ -2,7 +2,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import debounce from "debounce";
 import { Pencil, Plus } from "lucide-react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { FormInput } from "../Form";
@@ -30,8 +30,9 @@ export function FolderModal({
   onSubmit,
   initialValue,
 }: FolderModalProps) {
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   const schema = z.object({
-    name: z.string().min(3, "Name is required with a min 3 characters"),
+    name: z.string().min(3, "Name must have at least 3 characters"),
   });
   const form = useForm({
     resolver: zodResolver(schema),
@@ -42,6 +43,7 @@ export function FolderModal({
     formData.append("name", values.name);
     if (mode === "create") {
       await onSubmit(formData);
+      setIsOpen(false);
     } else {
       await onSubmit(values.name);
     }
@@ -54,13 +56,17 @@ export function FolderModal({
   const handleChange = debounce(handleSubmit, 500);
 
   return (
-    <Dialog>
-      <DialogTrigger className="hover:cursor-pointer" asChild>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+      <DialogTrigger
+        onClick={() => setIsOpen(true)}
+        className="hover:cursor-pointer"
+        asChild
+      >
         {mode === "update" ? (
           <Pencil />
         ) : (
-          <Button variant={"secondary"}>
-            <Plus></Plus> Folder
+          <Button variant={"secondary"} className="flex items-center">
+            <Plus /> Folder
           </Button>
         )}
       </DialogTrigger>
@@ -77,7 +83,11 @@ export function FolderModal({
                 }
               : { onChange: form.handleSubmit(handleChange) })}
           >
-            <FormInput control={form.control} name="name"></FormInput>
+            <FormInput
+              label="Folder's name"
+              control={form.control}
+              name="name"
+            ></FormInput>
             {mode === "create" && <Button type="submit">Create</Button>}
           </form>
         </Form>

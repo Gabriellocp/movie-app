@@ -21,8 +21,8 @@ export function FolderCard({ folder }: IFolderCardProps) {
     return null;
   }
   return (
-    <div className="rounded-sm bg-primary text-white text-2xl p-4 w-full flex items-center uppercase justify-center">
-      <strong>{folderName}</strong>
+    <div className="rounded-sm bg-primary text-white text-2xl p-4 w-full flex items-center uppercase">
+      <strong className="flex flex-1 justify-center">{folderName}</strong>
       <FolderModal
         mode="update"
         onSubmit={handleRename}
