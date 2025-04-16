@@ -1,6 +1,7 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
 import { CurrentUser } from 'src/shared/decorators/CurrentUser.decorator';
 import { CreateFolderDto } from './dto/create-folder.dto';
+import { UpdateFolderDto } from './dto/update-folder.dto';
 import { FolderService } from './folder.service';
 
 @Controller('folder')
@@ -15,5 +16,10 @@ export class FolderController {
   @Get()
   findAll(@CurrentUser() userId: string) {
     return this.folderService.findAll(userId);
+  }
+
+  @Put(':id')
+  updateFolder(@CurrentUser() userId: string, @Param('id') id: string, @Body() dto: UpdateFolderDto) {
+    return this.folderService.update(id, userId, dto)
   }
 }

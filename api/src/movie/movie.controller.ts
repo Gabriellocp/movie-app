@@ -17,7 +17,6 @@ export class MovieController {
     @Query('name') name: string,
     @Query('page', ParseIntPipe) page: number
   ) {
-    console.log(name, page)
     return this.movieService.findByTitle({ name, page });
   }
   @Get('detail/:id')

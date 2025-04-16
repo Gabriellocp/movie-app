@@ -1,21 +1,21 @@
-import { ConflictException, Injectable } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
+import { Prisma } from "@prisma/client";
+import { DefaultArgs } from "@prisma/client/runtime/library";
 import { CreateFolderDto } from "src/folder/dto/create-folder.dto";
+import { UpdateFolderDto } from "src/folder/dto/update-folder.dto";
 import { PrismaService } from "../prisma.service";
 
 @Injectable()
 
 export class FolderRepository {
     constructor(private readonly db: PrismaService) { }
-
-    async create(dto: CreateFolderDto, userId: string) {
+    findFolder(args: Prisma.FolderFindFirstArgs<DefaultArgs>) {
+        return this.db.folder.findFirst(args)
+    }
+    create(dto: CreateFolderDto, userId: string) {
         const { name } = dto
-        const existing = await this.db.folder.findFirst({
-            where: { userId, name }
-        })
-        if (existing) {
-            throw new ConflictException('User already have this folder, please change its name')
-        }
-        return await this.db.folder.create({
+
+        return this.db.folder.create({
             data: {
                 name,
                 userId
@@ -32,5 +32,15 @@ export class FolderRepository {
         return this.db.folder.findUnique({
             where: { id }
         })
+    }
+
+    update(id: string, dto: UpdateFolderDto) {
+        const { name } = dto
+
+        return this.db.folder.update({
+            where: { id },
+            data: { ...dto }
+        })
+
     }
 }

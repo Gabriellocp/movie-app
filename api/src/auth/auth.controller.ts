@@ -26,7 +26,6 @@ export class AuthController {
 
   @Get('refresh')
   async refresh(@Req() request: Request) {
-    console.log('FUI CHAMADO!!', request.headers.authorization)
     const refreshToken = request.cookies['refreshToken']
     if (!refreshToken) {
       throw new BadRequestException('No token provided')
